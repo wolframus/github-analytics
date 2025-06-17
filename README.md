@@ -1,97 +1,98 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📱 React Native GitHub OAuth App
 
-# Getting Started
+This is a React Native project that integrates GitHub OAuth login and demonstrates modern state and data fetching strategies with secure storage and optimized image rendering.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## ⚙️ Setup Instructions
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### 1. Create a GitHub OAuth App
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+1. Go to [GitHub Developer Settings](https://github.com/settings/developers).
+2. Click on **OAuth Apps** > **New OAuth App**.
+3. Fill in the form:
+   - **Application name**: e.g. `My RN GitHub App`
+   - **Homepage URL**: e.g. `https://githubanalytics.com`
+   - **Authorization callback URL**: put it to `com.githubanalytics://oauthredirect`
+4. Click **Register application**.
+5. Copy the **Client ID** and **Client Secret** (⚠️ the secret is shown only once, save it securely).
 
-```sh
-# Using npm
-npm start
+---
 
-# OR using Yarn
-yarn start
+### 2. Add GitHub Credentials
+
+Open the file `src/utils/githubAuthService.ts` and replace the placeholder values with your GitHub OAuth credentials you've got from above:
+
+### 3. Install Dependencies
+
+To install all required packages, run:
+
+```bash
+yarn
 ```
 
-## Step 2: Build and run your app
+### 4. Run the Application
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+To launch on iOS, run:
 
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```
+yarn i
 ```
 
-### iOS
+To launch on Android, run:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```
+yarn a
 ```
 
-Then, and every time you update your native dependencies, run:
+### 5. Run Tests
 
-```sh
-bundle exec pod install
+```
+yarn test
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## 📦 Libraries Used and Why
 
-```sh
-# Using npm
-npm run ios
+### ✅ Zustand
 
-# OR using Yarn
-yarn ios
-```
+Zustand is used for global and local state management. It was chosen because:
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+- It has a **minimal and straightforward API**
+- Requires **no boilerplate**
+- **Avoids unnecessary re-renders** through selective subscriptions
+- Provides **great TypeScript support**
+- Works well for both small and large apps
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+---
 
-## Step 3: Modify your app
+### ✅ React Native Keychain
 
-Now that you have successfully run the app, let's make changes!
+React Native Keychain is used to securely store sensitive credentials (like the GitHub access token). It was selected over alternatives because:
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+- It’s generally **faster** than other secure storage libraries
+- Supports **biometric authentication** (Face ID, Touch ID) (for future scalability)
+- Provides **secure, platform-native keychain access**
+- Has **broad community support** and stable maintenance
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+---
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+### ✅ react-native-fast-image
 
-## Congratulations! :tada:
+This library is used instead of React Native’s built-in `<Image />` component because:
 
-You've successfully run and modified your React Native App. :partying_face:
+- It offers **memory and disk caching** out of the box
+- **Improves image loading speed**, especially on Android
+- Supports **priority loading**, **custom headers**, and **preloading**
+- Provides a **smoother and more performant user experience**
 
-### Now what?
+---
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+### ✅ RTK Query or SWR (Recommended for Future Integration)
 
-# Troubleshooting
+Although not yet integrated, using **RTK Query** or **SWR** is highly recommended for managing API calls. These libraries provide:
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- **Automatic caching** and **data synchronization**
+- Built-in **loading**, **success**, and **error** state handling
+- Support for **optimistic updates**, **polling**, and **retry logic**
+- **Reduced boilerplate** with modern React hook APIs
+- **Improved developer experience** and scalability

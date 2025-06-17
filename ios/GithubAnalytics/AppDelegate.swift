@@ -2,13 +2,18 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import RNBootSplash
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, RNAppAuthAuthorizationFlowManager {
   var window: UIWindow?
 
   var reactNativeDelegate: ReactNativeDelegate?
   var reactNativeFactory: RCTReactNativeFactory?
+
+  public weak var authorizationFlowManagerDelegate:
+      RNAppAuthAuthorizationFlowManagerDelegate?
+
 
   func application(
     _ application: UIApplication,
@@ -31,11 +36,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     return true
   }
+
+    func application(
+    _ app: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+  ) -> Bool {
+    if let authorizationFlowManagerDelegate = self
+      .authorizationFlowManagerDelegate
+    {
+      if authorizationFlowManagerDelegate.resumeExternalUserAgentFlow(with: url)
+      {
+        return true
+      }
+    }
+    return false
+  }
 }
 
 class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
   override func sourceURL(for bridge: RCTBridge) -> URL? {
     self.bundleURL()
+  }
+
+  override func customize(_ rootView: RCTRootView) {
+    super.customize(rootView)
+    RNBootSplash.initWithStoryboard("BootSplash", rootView: rootView) // ⬅️ initialize the splash screen
   }
 
   override func bundleURL() -> URL? {
